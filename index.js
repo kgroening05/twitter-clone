@@ -9,6 +9,9 @@ const app = express()
 
 app.use(express.json())
 app.use(express.urlencoded({ extended:true }))
+app.use('/api/posts', routes.posts);
+app.use('/api/users', routes.users);
+app.use('/api/login', routes.login);
 
 const server = http.createServer(app)
 server.listen(port)
