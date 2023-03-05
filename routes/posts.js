@@ -7,9 +7,14 @@ const Posts = require('../controllers/posts')
 const Comments = require('../controllers/comments')
 
 // Get routes
-router.get('/',(req, res)=>{
-    Posts.getAllPosts
-})
+router.get(
+    '/',
+    Posts.getAllPosts,
+    (req, res) => {
+        const posts = res.locals.posts;
+        res.json({ posts })
+    }
+)
 
 router.get(
     '/comments',
