@@ -1,25 +1,16 @@
 const passport = require('passport')
-const BearerStrategy = require("passport-http-bearer").Strategy;
-const GitHubStrategy = require("passport-github2").Strategy;
-const GoogleStrategy = require("passport-google-oauth20").Strategy;
+const BearerStrategy = require("passport-http-bearer");
+const GitHubStrategy = require("passport-github2");
+const GoogleStrategy = require("passport-google-oauth20");
 const User = require('../models/users')
 
 require('dotenv').config()
-
-passport.serializeUser((user, done) => {
-  done(null, user.id);
-})
-
-passport.deserializeUser(async (id, done) => {
-  const user = await User.findById(id).exec();
-  done(null, user);
-})
 
 passport.use(
   new GoogleStrategy({
     clientID: process.env.GOOGLE_CLIENT_ID,
     clientSecret: process.env.GOOGLE_CLIENT_SECRET,
-    callbackURL: "/callback/google/redirect"
+    callbackURL: "/api/login/google/redirect",
   },
     async function (accessToken, refreshToken, profile, done) {
       const email = profile._json.email
@@ -39,16 +30,5 @@ passport.use(
       }
     }
   ));
-
-passport.use(
-  new BearerStrategy(
-  function(token, done) {
-    User.findOne({ token: token }, function (err, user) {
-      if (err) { return done(err); }
-      if (!user) { return done(null, false); }
-      return done(null, user, { scope: 'all' });
-    });
-  }
-));
 
 module.exports = passport
