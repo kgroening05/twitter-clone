@@ -1,10 +1,7 @@
-const mongoose = require('mongoose')
-const session = require('express-session')
-const MongoDBStore = require('connect-mongodb-session')(session);
+const mongoose = require('mongoose');
+const MongoStore = require('connect-mongo');
 
 require('dotenv').config()
-
-mongoose.set('strictQuery', true);
 
 // dbSecrets
 const username = process.env.DBUSERNAME;
@@ -16,21 +13,15 @@ const cluster = process.env.CLUSTER;
 const collection = process.env.SESSIONCOLLECTION
 
 // connection string
-const mongoDb = `mongodb+srv://${username}:${password}@${cluster}.fsq1lj2.mongodb.net/${database}?` 
-                + `retryWrites=true&`
-                + `w=majority`;
- 
-async function connectDb(){
-    await mongoose.connect(mongoDb)
-}
-
-const store = new MongoDBStore({
-    uri: mongoDb,
-    collection: collection
-});
-
-store.on('error', (err) => {
-    console.log(err)
+const mongoDb = `mongodb+srv://${username}:${password}@${cluster}.fsq1lj2.mongodb.net/${database}`             
+const dbConnectString = mongoDb + '?' + `retryWrites=true&` + `w=majority`;
+const store = MongoStore.create({
+    mongoUrl: mongoDb,
+    collectionName: collection,
 })
+
+connectDb = async function (){
+    await mongoose.connect(dbConnectString)
+}
 
 module.exports = { connectDb, store }
