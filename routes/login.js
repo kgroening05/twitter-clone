@@ -10,7 +10,6 @@ require('dotenv').config()
 
 router.get(
     '/',
-    verifyUser,
     (req, res) => {
         const { username } = req.body;
         const secret = process.env.TOKENSECRET;
@@ -34,7 +33,15 @@ router.get(
 
 router.get(
     '/google-auth',
-    passport.authenticate('google', { scope: ['profile', 'email'] })
+    passport.authenticate('google', { scope: ['profile', 'email'] }),
+)
+
+router.get(
+    '/google/redirect',
+    passport.authenticate('google', { 
+        failureRedirect: 'http://localhost:3000/',
+        successRedirect: 'http://localhost:3000/',
+    })
 )
 
 function verifyUser(req, res, next) {
