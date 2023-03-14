@@ -11,12 +11,8 @@ router.get(
     '/',
     Posts.getAllPosts,
     (req, res) => {
-        const session = req.session
-        const theuser = req.user
-        console.log(`user in get route: ${theuser}`)
-        console.log(`session in get route: ${session}`)
         const posts = res.locals.posts;
-        res.json({ posts })
+        res.send({ posts })
     }
 )
 
