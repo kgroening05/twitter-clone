@@ -7,7 +7,6 @@ require('dotenv').config()
 router.get(
     '/token-check',
     (req, res) => {
-        console.log('in get route')
         const userData = req.user
         if (userData === null){
             res.send(false)
