@@ -1,9 +1,5 @@
 const express = require('express');
-const jwt = require('jsonwebtoken');
-const bcrypt = require('bcryptjs');
 const router = express.Router();
-const User = require('../models/users');
-const verifyToken = require('../utils/verifyToken')
 const passport = require('../utils/passportStrategies')
 
 require('dotenv').config()
@@ -11,8 +7,13 @@ require('dotenv').config()
 router.get(
     '/token-check',
     (req, res) => {
+        console.log('in get route')
         const userData = req.user
-        res.json({ user: userData })
+        if (userData === null){
+            res.send(false)
+        } else {
+            res.send(userData)
+        }
     }
 )
 
