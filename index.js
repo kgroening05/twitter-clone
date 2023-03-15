@@ -5,21 +5,21 @@ const routes = require('./routes')
 const passport = require('./utils/passportStrategies')
 const user = require('./utils/passportSerialize')
 const session = require("express-session");
+const helmet = require('helmet')
 const { store, connectDb } = require('./utils/dbConnect')
-const { json } = require('express')
 
 connectDb()
 require('dotenv').config()
 const app = express()
-
+app.use(helmet())
 app.set('port', process.env.PORT || 3000)
 
-app.use(function (req, res, next) {
-    res.header("Access-Control-Allow-Origin", "*");
-    res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept, authorization");
-    res.header("Access-Control-Allow-Methods", "GET, POST, OPTIONS, PUT, DELETE");
-    next();
-})
+app.use((req, res, next) => {
+    res.setHeader("Access-Control-Allow-Origin", process.env.ALLOWEDORIGIN_1);
+    res.setHeader('Access-Control-Allow-Credentials', 'true')
+    next()
+}) 
+
 app.use(express.json())
 app.use(express.urlencoded({ extended:true }))
 app.use(session({
