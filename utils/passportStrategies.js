@@ -17,15 +17,14 @@ passport.use(
       const user = await User.findOne({ email: email }).exec()
       if (user){
         console.log('user exists')
-        console.log(user)
         done(null, user)
       } else {
-        console.log('no user')
         const newUser = await User.create({
           email: email,
           googleID: profile._json.sub,
+          profilePic: profile._json.picture
         })
-        console.log(newUser)
+        console.log('new user')
         done(null, newUser)
       }
     }
