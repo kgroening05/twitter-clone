@@ -1,6 +1,5 @@
 const express = require('express');
 const router = express.Router();
-const verifyToken = require('../utils/verifyToken')
 
 // Controllers
 const Posts = require('../controllers/posts')
@@ -29,17 +28,15 @@ router.get(
 // Post routes
 router.post(
     '/new-post',
-    verifyToken,
     Posts.addNewPost,
     (req, res) => {
-        console.log(`Added post ${req.body.title}`)
-        res.json({ message: `Added post ${req.body.title}`})
+        console.log(`Added post ${req.body.message}`)
+        res.send({success: true})
     }
 )
 
 router.post(
     '/new-comment',
-    verifyToken,
     Comments.addNewComment,
     (req,res)=>{
         console.log('new comment added')
