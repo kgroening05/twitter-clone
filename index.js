@@ -17,6 +17,8 @@ app.set('port', process.env.PORT || 3000)
 app.use((req, res, next) => {
     res.setHeader("Access-Control-Allow-Origin", process.env.ALLOWEDORIGIN_1);
     res.setHeader('Access-Control-Allow-Credentials', 'true')
+    res.setHeader('Access-Control-Allow-Methods', 'GET, POST, PUT')
+    res.setHeader('Access-Control-Allow-Headers', 'Content-Type')
     next()
 }) 
 
@@ -39,7 +41,7 @@ passport.serializeUser(user.serializeUser)
 passport.deserializeUser(user.deserializeUser)
 
 app.use('/api/posts', routes.posts);
-app.use('/api/users', routes.users);
+app.use('/api/user', routes.users);
 app.use('/api/login', routes.login);
 
 const server = http.createServer(app)
