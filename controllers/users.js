@@ -25,3 +25,18 @@ exports.addNewUser = async (req, res, next) => {
         });
     }
 }
+
+exports.updateUser = async (req, res, next) => {
+    if (!req.user){
+        console.log('no user object')
+        return
+    }
+    console.log(req.body)
+    const update = req.body
+    const options = {
+        new: true,
+    }
+    const updatedUser = await User.findByIdAndUpdate(req.user._id, update,options)
+    console.log(updatedUser)
+    next()
+}
