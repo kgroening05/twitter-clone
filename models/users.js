@@ -9,6 +9,7 @@ const users = new Schema({
     role: { type: String, enum: ['admin','user','poster'], default: 'user' },
     follows: { type: [Schema.Types.ObjectId], default: [], },
     followers: { type: [Schema.Types.ObjectId], default: [], },
+    profilePic: { type: String },
 },{
     collection: 'users',
     timestamps: true,
