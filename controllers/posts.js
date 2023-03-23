@@ -7,22 +7,16 @@ exports.getAllPosts = async(req, res, next) => {
         .sort({ timestamp: 'desc' })
         .limit(15)
         .populate('author');
+    //console.log(results)
     res.locals.posts = results
     next()
 }
 
 exports.addNewPost = async(req,res,next) => {
+    console.log(req.user)
     Post.create({
-        title: req.body.title,
-        body: req.body.body,
-        author: req.body.author,
-        postOn: req.body.postOn,
-    }, (err) => {
-        if (err) {
-            console.log(err)
-            res.json({error: err})
-        } else {
-            next()
-        }
+        body: req.body.tweet,
+        author: req.user._id,
     })
+    next()
 }
