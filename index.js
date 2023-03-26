@@ -15,10 +15,10 @@ app.use(helmet())
 app.set('port', process.env.PORT || 3000)
 
 app.use((req, res, next) => {
-    res.setHeader("Access-Control-Allow-Origin", process.env.ALLOWEDORIGIN_1);
+    res.setHeader("Access-Control-Allow-Origin", `${process.env.ALLOWEDORIGIN_1}`);
     res.setHeader('Access-Control-Allow-Credentials', 'true')
     res.setHeader('Access-Control-Allow-Methods', 'GET, POST, PUT')
-    res.setHeader('Access-Control-Allow-Headers', 'Content-Type')
+    res.setHeader('Access-Control-Allow-Headers', 'X-Requested-With, Content-Type')
     next()
 }) 
 
@@ -43,6 +43,7 @@ passport.deserializeUser(user.deserializeUser)
 app.use('/api/posts', routes.posts);
 app.use('/api/user', routes.users);
 app.use('/api/login', routes.login);
+app.use('/api/logout', routes.logout);
 
 const server = http.createServer(app)
 server.listen(app.get('port'))
