@@ -4,9 +4,9 @@ exports.getAllPosts = async(req, res, next) => {
     console.log('Getting all posts');
     const results = await Post
         .find({ })
-        .sort({ timestamp: 'desc' })
-        .limit(15)
-        .populate('author');
+        .sort({ createdAt: 'desc' })
+        .populate('author')
+        .exec();
     //console.log(results)
     res.locals.posts = results
     next()
