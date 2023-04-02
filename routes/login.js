@@ -7,9 +7,9 @@ require('dotenv').config()
 router.get(
     '/token-check',
     (req, res) => {
-        const userData = req.user
+        const userData = req.user;
         if (userData === null){
-            res.send(false)
+            res.send({message:'no user data'})
         } else {
             res.send(userData)
         }
@@ -24,8 +24,8 @@ router.get(
 router.get(
     '/google/redirect',
     passport.authenticate('google', { 
-        failureRedirect: 'http://localhost:3000/',
-        successRedirect: 'http://localhost:3000/',
+        failureRedirect: `${process.env.ALLOWEDORIGIN_3}/failure`,
+        successRedirect: `${process.env.ALLOWEDORIGIN_3}`,
     })
 )
 
